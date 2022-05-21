@@ -2,10 +2,11 @@
 import os.environ.setdefault
 import sys.argv
 from django.core.management.commands.runserver import Command as runserver
+from cjapp.settings import DEFAULT_PORT
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cjapp.settings")
-    runserver.DEFAULT_PORT = "8080"
+    runserver.DEFAULT_PORT = DEFAULT_PORT
     try:
         from django.core.management import execute_from_command_line
     except ImportError:
