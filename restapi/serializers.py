@@ -6,7 +6,7 @@ from restapi.models import Category, Groups, UserExpense, Expenses
 
 
 class UserSerializer(ModelSerializer):
-    def create(self, validated_data):
+    def create(self, validated_data) -> User:
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -41,7 +41,7 @@ class UserExpenseSerializer(ModelSerializer):
 class ExpensesSerializer(ModelSerializer):
     users = UserExpenseSerializer(many=True, required=True)
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> Expenses:
         expense_users = validated_data.pop('users')
         expense = Expenses.objects.create(**validated_data)
         for eu in expense_users:
