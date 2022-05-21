@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import os
-import sys
+import os.environ.setdefault
+import sys.argv
 from django.core.management.commands.runserver import Command as runserver
 
 if __name__ == "__main__":
