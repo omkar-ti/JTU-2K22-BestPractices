@@ -6,6 +6,10 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import User
 
+# Few numerical values are used directly here
+# But there meaning is made clear
+# Things like max length of a char field are not likely to be need elsewhere
+# Hence haven't changed
 
 class Category(models.Model):
     name = models.CharField(max_length=200, null=False)
