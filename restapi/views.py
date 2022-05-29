@@ -21,6 +21,7 @@ from restapi.serializers import UserSerializer, CategorySerializer, ExpensesSeri
 from restapi.custom_exception import UnauthorizedUserException
 from utils import aggregate, sort_by_time_stamp, response_format, transform
 
+import concurrent.futures
 
 def index(_request) -> Response:
     return HttpResponse("Hello, world. You're at Rest.")
@@ -208,10 +209,10 @@ def multi_threaded_reader(urls, num_threads) -> list:
     """
         Read multiple files through HTTP
     """
-    result = []
-    for url in urls:
-        data = reader(url, 60)
-        data = data.decode('utf-8')
-        result.extend(data.split("\n"))
+    with concurrent.futures.ThreadPoolExecutor(max_workers = 5) as executor:
+        futures = {executor.submit(reader, url, READER_TIMEOUT) : url for url in urls}
+        for future in concurrent.futures.as_completed(futures):
+            data = data.decode('utf-8')
+            result.extend(data.split("\n"))
     result = sorted(result, key=lambda elem:elem[1])
     return result
