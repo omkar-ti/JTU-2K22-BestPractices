@@ -6,7 +6,7 @@ from cjapp.settings import DEFAULT_PORT
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cjapp.settings")
-    runserver.DEFAULT_PORT = DEFAULT_PORT
+    runserver.default_port = DEFAULT_PORT
     try:
         from django.core.management import execute_from_command_line
     except ImportError:
