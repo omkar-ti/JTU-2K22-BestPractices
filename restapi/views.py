@@ -4,6 +4,9 @@ from decimal import Decimal
 import urllib.request
 from datetime import datetime
 
+import time
+import logging
+
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
@@ -182,6 +185,7 @@ class ExpensesViewSet(ModelViewSet):
 @authentication_classes([])
 @permission_classes([])
 def log_processor(request) -> Response:
+    start_time = time.perf_counter()
     data = request.data
     num_threads = data['parallelFileProcessingCount']
     log_files = data['logFiles']
@@ -196,6 +200,8 @@ def log_processor(request) -> Response:
     cleaned = transform(sorted_logs)
     data = aggregate(cleaned)
     response = response_format(data)
+    end_time = time.perf_counter()
+    logging.info(f"Log processing done in {end_time-start_time} seconds.")
     return Response({"response":response}, status=status.HTTP_200_OK)
 
 
