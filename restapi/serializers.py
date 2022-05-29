@@ -42,6 +42,9 @@ class ExpensesSerializer(ModelSerializer):
     users = UserExpenseSerializer(many=True, required=True)
 
     def create(self, validated_data) -> Expenses:
+        """
+        Serializes validated expense data into user expense objects
+        """
         expense_users = validated_data.pop('users')
         expense = Expenses.objects.create(**validated_data)
         for eu in expense_users:
